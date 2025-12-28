@@ -1,0 +1,5 @@
+{
+  "name": "FlashBuzz",
+  "description": "A simple, high-precision multiplayer buzzer system. No questions, no fluff—just see who clicks first.",
+  "requestFramePermissions": []
+}
