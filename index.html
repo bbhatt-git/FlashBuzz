@@ -7,7 +7,7 @@
     <title>FlashBuzz</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -18,39 +18,45 @@
               mono: ['JetBrains Mono', 'monospace'],
             },
             colors: {
-              background: '#f8fafc', // Slate-50
-              surface: '#ffffff',    // White
-              primary: '#4f46e5',    // Indigo-600
-              primaryDark: '#4338ca', // Indigo-700
+              background: '#09090b', // Zinc-950
+              surface: '#18181b',    // Zinc-900
+              surfaceHighlight: '#27272a', // Zinc-800
+              primary: '#6366f1',    // Indigo-500
+              primaryDark: '#4f46e5', // Indigo-600
+              accent: '#8b5cf6',     // Violet-500
               success: '#10b981',    // Emerald-500
-              danger: '#f43f5e',     // Rose-500
+              danger: '#ef4444',     // Red-500
               warning: '#f59e0b',    // Amber-500
-              textMain: '#0f172a',   // Slate-900
-              textMuted: '#64748b',  // Slate-500
+              textMain: '#fafafa',   // Zinc-50
+              textMuted: '#a1a1aa',  // Zinc-400
+            },
+            backgroundImage: {
+              'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M23 1c0-.55-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1h20c.55 0 1-.45 1-1zM1 23c0 .55.45 1 1 1h20c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E\")",
+              'gradient-radial': 'radial-gradient(circle at center, var(--tw-gradient-stops))',
             },
             boxShadow: {
-              'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
-              'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
-              'button': '0 4px 6px -1px rgba(79, 70, 229, 0.3), 0 2px 4px -1px rgba(79, 70, 229, 0.15)',
-              'inner-light': 'inset 0 2px 4px 0 rgba(255, 255, 255, 0.3)',
+              'glow': '0 0 20px -5px var(--tw-shadow-color)',
+              'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.3)',
+              'inner-glow': 'inset 0 0 20px rgba(255, 255, 255, 0.05)',
             },
             animation: {
-              'pop': 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
-              'pulse-soft': 'pulseSoft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
+              'slide-up': 'slideUp 0.5s ease-out forwards',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'bounce-subtle': 'bounceSubtle 2s infinite',
             },
             keyframes: {
-              pop: {
-                '0%': { transform: 'scale(0.95)', opacity: '0.8' },
-                '100%': { transform: 'scale(1)', opacity: '1' },
-              },
-              pulseSoft: {
-                '0%, 100%': { opacity: '1' },
-                '50%': { opacity: '0.7' },
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
               },
               slideUp: {
-                '0%': { transform: 'translateY(10px)', opacity: '0' },
+                '0%': { transform: 'translateY(20px)', opacity: '0' },
                 '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              bounceSubtle: {
+                '0%, 100%': { transform: 'translateY(-3px)' },
+                '50%': { transform: 'translateY(3px)' },
               }
             }
           }
@@ -74,29 +80,22 @@
     }
     </script>
     <style>
-      * {
-        -webkit-tap-highlight-color: transparent;
-      }
       body {
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
+        background-color: #09090b;
+        color: #fafafa;
       }
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
+      .glass-card {
+        background: rgba(24, 24, 27, 0.6);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
       }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-      .glass-panel {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.5);
+      .text-glow {
+        text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
       }
     </style>
   </head>
-  <body class="bg-background text-textMain min-h-screen antialiased overflow-x-hidden selection:bg-indigo-100 selection:text-indigo-900">
+  <body class="antialiased overflow-x-hidden selection:bg-primary selection:text-white">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

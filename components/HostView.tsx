@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { Users, Lock, Award, Zap, Trash2, RefreshCw, Smartphone, Copy, Check } from 'lucide-react';
+import { Users, Lock, Award, Zap, Trash2, RefreshCw, Smartphone, Copy, Check, Clock } from 'lucide-react';
 import { GameState, Player } from '../types';
 import { Layout } from './Layout';
 import * as fb from '../services/firebase';
@@ -73,35 +73,35 @@ export const HostView: React.FC = () => {
 
   return (
     <Layout>
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full animate-slide-up">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full animate-fade-in">
         
         {/* Left Column: Controls & Info */}
         <div className="lg:col-span-4 flex flex-col gap-6">
             
             {/* Room Card */}
-            <div className="bg-white rounded-3xl p-6 shadow-card border border-slate-100">
+            <div className="glass-card rounded-3xl p-6 shadow-glow shadow-primary/5">
                 <div className="flex justify-between items-start mb-6">
                     <div>
-                        <h2 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Room Code</h2>
+                        <h2 className="text-textMuted text-[10px] font-bold uppercase tracking-widest mb-2">Session ID</h2>
                         <div className="flex items-center gap-3">
-                            <span className="font-mono text-5xl font-black text-slate-900 tracking-tight">{roomId || '....'}</span>
-                            <button onClick={copyLink} className="p-2 hover:bg-slate-100 rounded-lg transition-colors text-slate-400">
-                                {copied ? <Check size={20} className="text-green-500" /> : <Copy size={20} />}
+                            <span className="font-mono text-5xl font-black text-white tracking-tight drop-shadow-lg">{roomId || '....'}</span>
+                            <button onClick={copyLink} className="p-2 hover:bg-white/10 rounded-lg transition-colors text-textMuted">
+                                {copied ? <Check size={20} className="text-success" /> : <Copy size={20} />}
                             </button>
                         </div>
                     </div>
-                    <div className="bg-white p-2 rounded-xl shadow-sm border border-slate-100">
+                    <div className="bg-white p-2 rounded-xl shadow-lg">
                         {roomId && <QRCodeSVG value={`${window.location.origin}/#/play/${roomId}`} size={80} />}
                     </div>
                 </div>
                 
-                <div className="flex items-center justify-between pt-4 border-t border-slate-50">
+                <div className="flex items-center justify-between pt-4 border-t border-white/5">
                     <div className="flex items-center gap-2">
-                         <span className={clsx("w-2.5 h-2.5 rounded-full animate-pulse", roomId ? "bg-emerald-500" : "bg-red-500")}></span>
-                         <span className="text-slate-500 text-xs font-bold uppercase">{statusMessage}</span>
+                         <span className={clsx("w-2 h-2 rounded-full animate-pulse", roomId ? "bg-success shadow-[0_0_10px_#10b981]" : "bg-danger")}></span>
+                         <span className="text-textMuted text-[10px] font-bold uppercase tracking-widest">{statusMessage}</span>
                     </div>
-                    <button onClick={createNewSession} disabled={isLoading} className="text-xs font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
-                        <RefreshCw size={12} className={isLoading ? "animate-spin" : ""} /> NEW SESSION
+                    <button onClick={createNewSession} disabled={isLoading} className="text-[10px] font-bold text-primary hover:text-white flex items-center gap-1 uppercase tracking-wider transition-colors">
+                        <RefreshCw size={10} className={isLoading ? "animate-spin" : ""} /> New Session
                     </button>
                 </div>
             </div>
@@ -110,32 +110,34 @@ export const HostView: React.FC = () => {
             <div className="grid grid-cols-1 gap-4">
                 <button 
                     onClick={resetBuzzer}
-                    className="group relative h-24 bg-gradient-to-br from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white rounded-3xl font-black text-xl uppercase tracking-widest shadow-button hover:shadow-lg active:scale-[0.98] transition-all overflow-hidden"
+                    className="group relative h-24 bg-gradient-to-br from-primary to-primaryDark text-white rounded-3xl font-black text-xl uppercase tracking-widest shadow-[0_0_40px_-10px_rgba(99,102,241,0.5)] hover:shadow-[0_0_60px_-10px_rgba(99,102,241,0.7)] hover:scale-[1.02] active:scale-[0.98] transition-all overflow-hidden border border-white/10"
                 >
-                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-                    <div className="relative flex items-center justify-center gap-3">
-                        <Zap size={28} className={gameState === GameState.OPEN ? "fill-white animate-pulse" : "fill-white/50"} />
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+                    <div className="relative flex items-center justify-center gap-3 z-10">
+                        <div className="p-2 bg-white/20 rounded-full group-hover:bg-white/30 transition-colors">
+                            <Zap size={24} className={gameState === GameState.OPEN ? "fill-white animate-pulse" : "fill-white"} />
+                        </div>
                         RESET / GO
                     </div>
                 </button>
                 
                 <button 
                     onClick={lockBuzzer}
-                    className="h-16 bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 rounded-3xl font-bold text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm active:scale-[0.98]"
+                    className="h-16 bg-surfaceHighlight hover:bg-surfaceHighlight/80 text-textMuted hover:text-white border border-white/5 rounded-3xl font-bold text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
                 >
-                    <Lock size={18} /> Lock Buzzers
+                    <Lock size={16} /> Lock Buzzers
                 </button>
             </div>
 
             {/* Stats */}
-            <div className="bg-indigo-50/50 rounded-3xl p-5 border border-indigo-100 flex items-center justify-between">
+            <div className="bg-black/30 rounded-3xl p-5 border border-white/5 flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <div className="p-3 bg-white rounded-2xl shadow-sm text-indigo-600">
+                    <div className="p-3 bg-surfaceHighlight rounded-2xl text-textMuted">
                         <Users size={20} />
                     </div>
                     <div>
-                        <div className="text-2xl font-black text-slate-900 leading-none">{players.length}</div>
-                        <div className="text-indigo-400 text-[10px] uppercase tracking-widest font-bold mt-1">Players Connected</div>
+                        <div className="text-2xl font-black text-white leading-none">{players.length}</div>
+                        <div className="text-textMuted text-[10px] uppercase tracking-widest font-bold mt-1">Players Ready</div>
                     </div>
                 </div>
             </div>
@@ -146,65 +148,72 @@ export const HostView: React.FC = () => {
             
             {/* Main Stage */}
             <div className={clsx(
-                "flex-1 rounded-[2rem] relative overflow-hidden flex flex-col items-center justify-center min-h-[400px] shadow-soft transition-all duration-500 border border-slate-100",
-                winner ? "bg-amber-50" : gameState === GameState.OPEN ? "bg-emerald-50" : "bg-white"
+                "flex-1 rounded-[2.5rem] relative overflow-hidden flex flex-col items-center justify-center min-h-[400px] transition-all duration-500 border border-white/5",
+                winner ? "bg-warning shadow-[0_0_100px_-20px_rgba(245,158,11,0.3)]" : gameState === GameState.OPEN ? "bg-success shadow-[0_0_100px_-20px_rgba(16,185,129,0.3)]" : "bg-surfaceHighlight"
             )}>
+                {/* Background Grid inside Stage */}
+                <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
+
                 <div className="relative z-10 text-center px-8 w-full max-w-2xl">
                     {winner ? (
-                        <div className="animate-pop flex flex-col items-center">
-                            <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-amber-100 text-amber-700 text-sm font-bold uppercase tracking-widest mb-8 border border-amber-200">
-                                <Award size={16} /> Fast Finger
+                        <div className="animate-fade-in flex flex-col items-center">
+                            <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-black/20 text-black text-sm font-black uppercase tracking-widest mb-8 backdrop-blur-sm border border-black/10">
+                                <Award size={16} /> Winner
                             </div>
-                            <h1 className="text-7xl md:text-9xl font-black text-slate-900 tracking-tighter mb-4 leading-none">
+                            <h1 className="text-7xl md:text-9xl font-black text-black tracking-tighter mb-4 leading-none drop-shadow-sm">
                                 {winner.name}
                             </h1>
-                            <div className="font-mono text-slate-400 text-2xl font-bold tracking-widest bg-white px-6 py-2 rounded-xl shadow-sm inline-block border border-slate-100">
-                                +0.{String(getValidDate(winner.time).getMilliseconds()).padStart(3, '0')}s
+                            <div className="flex items-center gap-3 bg-black text-white px-8 py-4 rounded-2xl shadow-2xl">
+                                <Clock size={24} className="text-warning" />
+                                <span className="font-mono text-3xl font-bold tracking-widest">
+                                    +0.{String(getValidDate(winner.time).getMilliseconds()).padStart(3, '0')}s
+                                </span>
                             </div>
                         </div>
                     ) : gameState === GameState.OPEN ? (
-                        <div className="animate-pulse-soft">
-                             <div className="w-32 h-32 rounded-full bg-emerald-500 flex items-center justify-center mx-auto mb-8 shadow-button shadow-emerald-200">
-                                <Zap size={64} className="text-white fill-white" />
+                        <div className="animate-bounce-subtle">
+                             <div className="w-32 h-32 rounded-full bg-black/20 flex items-center justify-center mx-auto mb-8 border border-black/5">
+                                <Zap size={64} className="text-black fill-black" />
                              </div>
-                             <h2 className="text-6xl font-black text-slate-900 tracking-tighter">BUZZERS OPEN</h2>
-                             <p className="text-slate-400 font-medium mt-4 text-lg">Waiting for the fastest finger...</p>
+                             <h2 className="text-7xl font-black text-black tracking-tighter mix-blend-overlay">BUZZ NOW</h2>
                         </div>
                     ) : (
-                        <div className="opacity-40 grayscale">
-                            <div className="w-24 h-24 rounded-3xl bg-slate-100 flex items-center justify-center mx-auto mb-6">
-                                <Lock size={40} className="text-slate-400" />
-                            </div>
-                            <h2 className="text-4xl font-bold text-slate-300 tracking-tight">LOCKED</h2>
+                        <div className="opacity-20 flex flex-col items-center">
+                            <Lock size={64} className="text-textMuted mb-6" />
+                            <h2 className="text-4xl font-black text-textMuted tracking-tight uppercase">Locked</h2>
                         </div>
                     )}
                 </div>
             </div>
 
             {/* Players Grid */}
-            <div className="bg-white rounded-3xl p-6 shadow-card border border-slate-100">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Lobby</h3>
+            <div className="glass-card rounded-3xl p-6">
+                <h3 className="text-[10px] font-bold text-textMuted uppercase tracking-widest mb-4 flex items-center gap-2">
+                    <span className="w-1 h-1 bg-primary rounded-full"></span> Live Lobby
+                </h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
                     {players.map(p => (
                         <div key={p.id} className={clsx(
-                            "group relative flex flex-col justify-between p-3 rounded-2xl border transition-all duration-200 min-h-[90px] hover:shadow-md",
-                            winner?.name === p.name ? "bg-amber-50 border-amber-200 ring-2 ring-amber-400 ring-offset-2" : "bg-slate-50 border-slate-100 hover:border-indigo-200 hover:bg-white"
+                            "group relative flex flex-col justify-between p-4 rounded-2xl border transition-all duration-200 min-h-[100px]",
+                            winner?.name === p.name 
+                                ? "bg-warning/10 border-warning text-warning" 
+                                : "bg-black/20 border-white/5 hover:bg-white/5 hover:border-white/10"
                         )}>
                             <div className="flex justify-between items-start w-full">
-                                <span className="font-bold truncate text-sm text-slate-900 w-full pr-2">{p.name}</span>
-                                <SignalIcon ms={p.rtt} size="sm" className={winner?.name === p.name ? "bg-amber-400" : "bg-slate-300"} />
+                                <span className={clsx("font-bold truncate text-sm w-full pr-2", winner?.name === p.name ? "text-warning" : "text-white")}>{p.name}</span>
+                                <SignalIcon ms={p.rtt} size="sm" className={winner?.name === p.name ? "bg-warning" : "bg-white/20"} />
                             </div>
                             <div className="mt-auto flex justify-between items-center">
-                                <span className="text-[10px] font-mono font-bold text-slate-400">{p.rtt || '-'}ms</span>
-                                <button onClick={() => kickPlayer(p.id)} className="opacity-0 group-hover:opacity-100 text-red-400 hover:bg-red-50 hover:text-red-600 p-1.5 rounded-lg transition-all">
+                                <span className="text-[10px] font-mono font-bold opacity-50">{p.rtt || '-'}ms</span>
+                                <button onClick={() => kickPlayer(p.id)} className="opacity-0 group-hover:opacity-100 text-danger hover:bg-danger/10 p-1.5 rounded-lg transition-all">
                                     <Trash2 size={12} />
                                 </button>
                             </div>
                         </div>
                     ))}
                     {players.length === 0 && (
-                        <div className="col-span-full py-8 text-center border-2 border-dashed border-slate-100 rounded-2xl">
-                            <p className="text-slate-400 text-sm font-medium">Waiting for players to join...</p>
+                        <div className="col-span-full py-12 text-center border border-dashed border-white/10 rounded-2xl bg-black/20">
+                            <p className="text-textMuted text-xs font-mono">Waiting for connections...</p>
                         </div>
                     )}
                 </div>

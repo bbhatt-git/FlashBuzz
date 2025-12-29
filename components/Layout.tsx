@@ -1,7 +1,6 @@
 import React from 'react';
 import { Zap } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import clsx from 'clsx';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -17,27 +16,33 @@ export const Layout: React.FC<LayoutProps> = ({ children, showHomeLink = true })
   }
 
   return (
-    <div className="min-h-screen flex flex-col font-sans bg-background text-textMain relative">
-      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50 via-white to-white pointer-events-none -z-10"></div>
-      
+    <div className="min-h-screen flex flex-col font-sans bg-background text-textMain relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0"></div>
+      <div className="fixed inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none z-0"></div>
+      <div className="fixed inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent opacity-40 pointer-events-none z-0"></div>
+
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex justify-center py-4 px-4 pointer-events-none">
-        <div className="pointer-events-auto flex items-center justify-between gap-4 px-5 py-2.5 rounded-full glass-panel shadow-sm transition-all hover:shadow-md duration-300">
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 text-white p-1.5 rounded-lg shadow-sm group-hover:scale-105 transition-transform duration-200">
-               <Zap size={16} fill="currentColor" />
+      <header className="fixed top-0 left-0 right-0 z-50 flex justify-center py-6 px-4 pointer-events-none">
+        <div className="pointer-events-auto flex items-center justify-between gap-5 px-5 py-2.5 rounded-full glass-card shadow-glass transition-all hover:border-white/20 duration-300">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="relative">
+                <div className="absolute inset-0 bg-primary/40 blur-md rounded-full group-hover:bg-primary/60 transition-colors"></div>
+                <div className="relative bg-black text-white p-1.5 rounded-full border border-white/10">
+                    <Zap size={14} fill="currentColor" />
+                </div>
             </div>
-            <span className="text-sm font-bold tracking-tight text-slate-800">
+            <span className="text-sm font-bold tracking-tight text-white group-hover:text-primary transition-colors">
               FlashBuzz
             </span>
           </Link>
           
           {showHomeLink && (
             <>
-              <div className="w-px h-4 bg-slate-200"></div>
+              <div className="w-px h-3 bg-white/10"></div>
               <Link 
                 to="/" 
-                className="text-[11px] font-semibold text-slate-500 hover:text-indigo-600 transition-colors uppercase tracking-wide"
+                className="text-[10px] font-bold text-textMuted hover:text-white transition-colors uppercase tracking-widest"
               >
                 Exit
               </Link>
@@ -46,13 +51,13 @@ export const Layout: React.FC<LayoutProps> = ({ children, showHomeLink = true })
         </div>
       </header>
 
-      <main className="flex-grow flex flex-col w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-24 pb-12">
+      <main className="flex-grow flex flex-col w-full max-w-6xl mx-auto px-6 relative z-10 pt-32 pb-12">
         {children}
       </main>
 
-      <footer className="py-6 text-center relative z-10">
-        <p className="text-xs text-slate-400 font-medium">
-          High Performance Buzzer System
+      <footer className="py-8 text-center relative z-10">
+        <p className="text-[10px] text-textMuted/50 uppercase tracking-[0.3em] font-medium">
+          System Status: Online
         </p>
       </footer>
     </div>

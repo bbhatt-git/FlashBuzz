@@ -9,7 +9,8 @@ interface SignalIconProps {
 
 export const SignalIcon: React.FC<SignalIconProps> = ({ ms, className, size = 'sm' }) => {
   let activeBars = 0;
-  let colorClass = "bg-slate-300"; // Default inactive color
+  // Default color for active bars in dark mode is usually a muted white or specific status color
+  let colorClass = "bg-white/20"; 
 
   if (typeof ms === 'number' && ms > 0) {
     if (ms < 100) { activeBars = 4; colorClass = "bg-emerald-500"; }
@@ -26,7 +27,7 @@ export const SignalIcon: React.FC<SignalIconProps> = ({ ms, className, size = 's
 
   const dim = dimensions[size];
 
-  // If a custom className provides a bg-color (like white), we use that for active bars instead
+  // Allow override if custom bg class is passed
   const hasCustomBg = className?.includes('bg-');
   const finalActiveColor = hasCustomBg ? className : colorClass;
 
@@ -38,7 +39,7 @@ export const SignalIcon: React.FC<SignalIconProps> = ({ ms, className, size = 's
           className={clsx(
             dim.width,
             "rounded-[1px] transition-all duration-300",
-            bar <= activeBars ? finalActiveColor : "bg-slate-200/50"
+            bar <= activeBars ? finalActiveColor : "bg-white/5"
           )}
           style={{ height: `${bar * 25}%` }}
         />
